@@ -165,17 +165,17 @@ HTTP 協定的缺點在於對客戶端來說相對的沒有效率。複製或者
 
 另一個辦法是讓 SSH 伺服器透過某個 LDAP 服務，或者其他已經設定好的集中授權機制來進行授權。只要每個人都能獲得主機的 shell 存取權限，任何可用的 SSH 授權機制都能達到相同效果。
 
-## 生成 SSH 公開金鑰 ##
+## 產生 SSH 公開金鑰 ##
 
-大多數 Git 伺服器都會選擇使用 SSH 公開金鑰來進行授權。系統中的每個使用者都必須提供一個公開金鑰用於授權，沒有的話就要生成一個。生成公開金鑰的過程在所有作業系統上都差不多。
-首先先確認一下是否已經有一個公開金鑰了。SSH 公開金鑰預設儲存在帳戶的主目錄下的 `~/.ssh` 目錄。進去看看：
+大多數 Git 伺服器都會選擇使用 SSH 公開金鑰來進行授權。系統中的每個使用者都必須提供一個公開金鑰用於授權，沒有的話就要重新產生一個。產生公開金鑰的過程在所有作業系統上都差不多。
+首先先確認一下是否已經有一個公開金鑰了。SSH 公開金鑰預設儲存在帳號家目錄下的 `~/.ssh` 目錄。你可以進入這個目錄查看是否已經擁有公開金鑰：
 
 	$ cd ~/.ssh
 	$ ls
 	authorized_keys2  id_dsa       known_hosts
 	config            id_dsa.pub
 
-關鍵是看有沒有用 `something` 和 `something.pub` 來命名的一對檔，這個 `something` 通常就是 `id_dsa` 或 `id_rsa`。有 `.pub` 尾碼的檔就是公開金鑰，另一個檔則是金鑰。假如沒有這些檔，或者乾脆連 `.ssh` 目錄都沒有，可以用 `ssh-keygen` 來創建。該程式在 Linux/Mac 系統上由 SSH 包提供，而在 Windows 上則包含在 MSysGit 包裡：
+如果你已經有公開金鑰了應該會看到一對使用 `something` 和 `something.pub` 來命名的檔案，`something` 通常就是 `id_dsa` 或 `id_rsa`。有 `.pub` 副檔名的檔案就是公開金鑰，另一個檔案則是私密金鑰。假如沒有這些檔案（或者連 `.ssh` 目錄都沒有），可以使用 `ssh-keygen` 這個程式來產生。該程式在 Linux/Mac 系統上由 SSH 套件提供，而在 Windows 上則包含在 MSysGit 套件裡：
 
 	$ ssh-keygen
 	Generating public/private rsa key pair.
@@ -187,9 +187,9 @@ HTTP 協定的缺點在於對客戶端來說相對的沒有效率。複製或者
 	The key fingerprint is:
 	43:c5:5b:5f:b1:f1:50:43:ad:20:a6:92:6a:1f:9a:3a schacon@agadorlaptop.local
 
-它先要求你確認保存公開金鑰的位置（`.ssh/id_rsa`），然後它會讓你重複一個密碼兩次，如果不想在使用公開金鑰的時候輸入密碼，可以留空。
+`ssh-keygen` 首先會要你確認儲存公開金要得位置（預設是 `.ssh/id_rsa`），接著要你輸入兩次密碼進行確認，如果不想在使用公開金鑰的時候輸入密碼，可以在密碼輸入欄位保持空白。
 
-現在，所有做過這一步的用戶都得把它們的公開金鑰給你或者 Git 伺服器的管理員（假設 SSH 服務被設定為使用公開金鑰機制）。他們只需要複製 `.pub` 檔的內容然後發郵件給管理員。公開金鑰的樣子大致如下：
+現在，所有做過這一步的使用者都必須把它們的公開金鑰傳給你或者 Git 伺服器的管理員（假設 SSH 服務被設定為使用公開金鑰機制），他們只需要複製 `.pub` 檔的內容然後寄送電子郵件給管理員。公開金鑰的內容大致如下：
 
 	$ cat ~/.ssh/id_rsa.pub
 	ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAklOUpkDHrfHY17SbrmTIpNLTGK9Tjom/BWDSU
@@ -199,7 +199,7 @@ HTTP 協定的缺點在於對客戶端來說相對的沒有效率。複製或者
 	mZ+AW4OZPnTPI89ZPmVMLuayrD2cE86Z/il8b+gw3r3+1nKatmIkjn2so1d01QraTlMqVSsbx
 	NrRFi9wrf+M7Q== schacon@agadorlaptop.local
 
-關於在多個作業系統上設立相同 SSH 公開金鑰的教程，可以查閱 GitHub 上有關 SSH 公開金鑰的嚮導：`http://github.com/guides/providing-your-ssh-key`。
+關於在其他作業系統上建立 SSH 公開金鑰的教學，可以參閱 GitHub 上有關 SSH 公開金鑰的指南：`http://github.com/guides/providing-your-ssh-key`。
 
 ## 架設伺服器 ##
 
